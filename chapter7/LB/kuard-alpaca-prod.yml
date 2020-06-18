@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: #Deployment metadata
+  name: alpaca
+  labels:
+    ver: "1"
+    app: alpaca
+    env: prod
+spec:
+  selector: #Selector metadata
+    matchLabels:
+      app: alpaca-prod
+  replicas: 3
+  template:
+    metadata: #Pod metadata
+      labels:
+        ver: "1"
+        app: alpaca-prod
+        env: prod
+    spec: 
+      containers:
+        - name: kuard
+          image: gcr.io/kuar-demo/kuard-amd64:blue
+          ports:
+            - containerPort: 8080
+              name: http
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: 8080
+            initialDelaySeconds: 30
+            timeoutSeconds: 1
+            periodSeconds: 10
+            failureThreshold: 3
