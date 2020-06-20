@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "1"
+  creationTimestamp: null
+  generation: 1
+  name: kuard
+  selfLink: /apis/apps/v1/namespaces/default/deployments/kuard
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      run: kuard
+  strategy:
+    rollingUpdate:
+      maxSurge: 25% #how many extra resources can be created to achievea rollout. Set 100% is equivalent a blue/green
+      maxUnavailable: 25% #The maxUnavailable parameter sets the maximum number of Pods that can beunavailable during a rolling update
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        run: kuard
+    spec:
+      containers:
+      - image: gcr.io/kuar-demo/kuard-amd64:blue
+        imagePullPolicy: IfNotPresent
+        name: kuard
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+status: {}
