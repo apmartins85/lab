@@ -4,17 +4,17 @@ metadata:
   name: hello
 spec:
   containers:
-    - image: gcr.io/kuar-demo/kuard-amd64:blue
+    - image: cloudnatived/demo:hello
       name: hello
       ports:
         - containerPort: 8888
           name: http
           protocol: TCP
-      resources:
-        requests:
+      resources: 
+        requests: #minimum requested to run
           cpu: "100m"
           memory: "128Mi"
-        limits:
+        limits: #maximum of resource until die
           cpu: "200m"
           memory: "256Mi"
       livenessProbe:
