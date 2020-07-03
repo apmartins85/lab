@@ -1,0 +1,8 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+spec:
+  replicas: 10
+  strategy:
+    type: RollingUpdate
+      maxSurge: 20%
+      maxUnavailable: 3
