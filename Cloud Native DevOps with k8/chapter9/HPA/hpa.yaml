@@ -1,0 +1,17 @@
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metada:
+  name: demo-hpa
+  namespace: default
+
+spec:
+  scaleTargetRef: ### Which deployment should scale up?
+    apiVersion: extension/v1beta1
+    kind: Deployment
+    name: demo
+  minReplicas: 1 ### Limits
+  maxReplicas: 10 ### Limits
+  metrics: # Metrics that should should be scale
+    - type: Resource
+      name: cpu
+      targetAverageUtilization: 8
